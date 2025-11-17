@@ -1,8 +1,14 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
+import java.lang.ArithmeticException;
 
 public class Ticket {
     //Variables globals
     Scanner scanner = new Scanner(System.in);
+    String nomProducte;
+    float preuUnitari;
+    int quantitat;
+    boolean altreProducte = true;
     public static void main(String[] args) {
         Ticket program = new Ticket();
         program.inici();
@@ -26,10 +32,10 @@ public class Ticket {
             novaComanda();
             break;
         case "2":
-            actualitzarComanda();
+        
             break;
         case "3":
-            visualitzarComanda();
+            
             break;
         case "4":
             System.out.println("Sortint del programa...");
@@ -43,11 +49,62 @@ public class Ticket {
     }
 
     public void novaComanda() {
-        String nomClient, nomProducte;
-        float preuUnitari;
-        int quantitat;
+        String nomClient;
+        try {
+        System.out.println("============= NOVA COMANDA =============");
+        System.out.println("Introduexi el seu nom siusplau: ");
+        nomClient = scanner.nextLine();
+        afegirProducte();
+        generarTiquet(nomClient);
+    }
+    catch (ArithmeticException e){
+        System.out.println("Error: Operacio aritmetica no valida.");
+    }
+    catch (InputMismatchException e) {
+        System.out.println("Error: Tipus de dada incorrecte.");
+    }
+    catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+    }
 
+
+    public void afegirProducte() {
+        String demanarMes;
+        try {
+        while (altreProducte == true) {
+        System.out.println("Introdueixi el nom del seu producte: ");
+        nomProducte = scanner.nextLine();
+        System.out.println("Introdueixi el preu unitari del seu producte: ");
+        preuUnitari = scanner.nextFloat();
+        System.out.println("Introdueixi la quantitat: ");
+        quantitat = scanner.nextInt();
+        System.out.println();
+
+        System.out.println("Vols afegir una altre comanda? (Si o no) ");
+        scanner.nextLine();
+        demanarMes = scanner.nextLine();
+        if (demanarMes.trim().equalsIgnoreCase("no")) {
+            altreProducte = false;
+        }
+        }
         
+    }catch (ArithmeticException e){
+        System.out.println("Error: Operacio aritmetica no valida.");
+    }
+    catch (InputMismatchException e) {
+        System.out.println("Error: Tipus de dada incorrecte.");
+    }
+    catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+    }
+    public void generarTiquet(String nomClient) {
+
+        System.out.println("\nGenerant tiquet...");
+        
+
+
     }
     }
 
