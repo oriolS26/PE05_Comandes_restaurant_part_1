@@ -66,7 +66,7 @@ public class Ticket {
         System.out.println("Introduexi el seu nom siusplau: ");
         nomClient = scanner.nextLine();
         ultimClient = nomClient;
-        
+
         afegirProducte();
         generarTiquet(nomClient);
     }
@@ -82,7 +82,21 @@ public class Ticket {
     }
 
     public void actualitzarComanda() {
-        System.out.println("Funcio no implementada encara.");
+         if (!hiHaComanda) {
+            System.out.println("No hi ha cap comanda enregistrada.");
+            return;
+        }
+
+        try {
+            System.out.println("========== ACTUALITZAR COMANDA =========");
+            altreProducte = true;
+
+            afegirProducte();
+            generarTiquet(ultimClient);
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
     public void visualitzarComanda() {
         System.out.println("Funcio no implementada encara.");
@@ -93,15 +107,22 @@ public class Ticket {
         while (altreProducte == true) {
         System.out.println("Introdueixi el nom del seu producte: ");
         nomProducte = scanner.nextLine();
+
         System.out.println("Introdueixi el preu unitari del seu producte: ");
         preuUnitari = scanner.nextFloat();
+
         System.out.println("Introdueixi la quantitat: ");
         quantitat = scanner.nextInt();
-        System.out.println();
+
+        float subtotal = preuUnitari * quantitat;
+
+        llistaProductes = llistaProductes + String.format("%-15s %-11d %-13.2f %.2f €\n", nomProducte, quantitat, preuUnitari, subtotal);
+        totalSenseIVA = totalSenseIVA + subtotal;
 
         System.out.println("Vols afegir una altre comanda? (Si o no) ");
         scanner.nextLine();
         demanarMes = scanner.nextLine();
+
         if (demanarMes.trim().equalsIgnoreCase("no")) {
             altreProducte = false;
         }
@@ -139,5 +160,5 @@ public class Ticket {
     }
 
     }
-    }
+    
 
