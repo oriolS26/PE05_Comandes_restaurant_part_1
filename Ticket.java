@@ -4,11 +4,17 @@ import java.lang.ArithmeticException;
 
 public class Ticket {
     //Variables globals
-    Scanner scanner = new Scanner(System.in);
-    String nomProducte;
-    float preuUnitari;
-    int quantitat;
-    boolean altreProducte = true;
+     Scanner scanner = new Scanner(System.in);
+     String nomProducte;
+     float preuUnitari;
+     int quantitat;
+     boolean altreProducte = true;   
+
+     String llistaProductes = "";
+     float totalSenseIVA = 0;
+     String ultimClient = "";
+     boolean hiHaComanda = false;
+
     public static void main(String[] args) {
         Ticket program = new Ticket();
         program.inici();
@@ -32,10 +38,10 @@ public class Ticket {
             novaComanda();
             break;
         case "2":
-        
+            actualitzarComanda();
             break;
         case "3":
-            
+            visualitzarComanda();
             break;
         case "4":
             System.out.println("Sortint del programa...");
@@ -51,9 +57,16 @@ public class Ticket {
     public void novaComanda() {
         String nomClient;
         try {
+
+        llistaProductes = "";
+        totalSenseIVA = 0;
+        altreProducte = true;
+        
         System.out.println("============= NOVA COMANDA =============");
         System.out.println("Introduexi el seu nom siusplau: ");
         nomClient = scanner.nextLine();
+        ultimClient = nomClient;
+        
         afegirProducte();
         generarTiquet(nomClient);
     }
@@ -68,7 +81,12 @@ public class Ticket {
     }
     }
 
-
+    public void actualitzarComanda() {
+        System.out.println("Funcio no implementada encara.");
+    }
+    public void visualitzarComanda() {
+        System.out.println("Funcio no implementada encara.");
+    }
     public void afegirProducte() {
         String demanarMes;
         try {
@@ -101,9 +119,24 @@ public class Ticket {
     }
     public void generarTiquet(String nomClient) {
 
-        System.out.println("\nGenerant tiquet...");
-        
+        float iva = totalSenseIVA * 0.10f;
+        float total = totalSenseIVA + iva;
 
+        System.out.println("______________________________________");
+        System.out.println("=============== TIQUET ===============");
+        System.out.println("______________________________________");
+        System.out.println("Client: " + nomClient + "\n");
+
+        System.out.println("Producte        Quantitat   Preu unit.   Subtotal");
+        System.out.println("--------------------------------------------------");
+        System.out.print(llistaProductes);
+        System.out.println("--------------------------------------------------");
+
+        System.out.printf("Total sense IVA:                 %.2f €\n", totalSenseIVA);
+        System.out.printf("IVA (10%%):                       %.2f €\n", iva);
+        System.out.printf("TOTAL A PAGAR:                   %.2f €\n", total);
+        System.out.println("==================================================");
+    }
 
     }
     }
