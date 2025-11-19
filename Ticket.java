@@ -24,7 +24,7 @@ public class Ticket {
         String opcio1;
 
         do {
-        System.out.println("Benvingut al sistema de venda d'entrades!");
+        System.out.println("Benvingut al sistema de gestio de tiquets");
         System.out.println("-------------------------------------------");
         System.out.println("===============MENU PRINCIPAL===============");
         System.out.println("1: Crear nova comanda");
@@ -99,8 +99,13 @@ public class Ticket {
         }
     }
     public void visualitzarComanda() {
-        System.out.println("Funcio no implementada encara.");
+         if (!hiHaComanda) {
+            System.out.println("No hi ha cap comanda enregistrada.");
+            return;
+        }
+        generarTiquet(ultimClient);
     }
+
     public void afegirProducte() {
         String demanarMes;
         try {
@@ -142,6 +147,8 @@ public class Ticket {
 
         float iva = totalSenseIVA * 0.10f;
         float total = totalSenseIVA + iva;
+
+        hiHaComanda = true;
 
         System.out.println("______________________________________");
         System.out.println("=============== TIQUET ===============");
