@@ -1,0 +1,147 @@
+# 🧪 PLA DE PROVES — Sistema de Gestió de Tiquets (`Ticket.java`)
+
+## 1. Objectiu
+Validar el correcte funcionament del programa `Ticket`, comprovant:
+- La gestió de comandes i productes.
+- El càlcul correcte del subtotal, IVA i total.
+- La navegació del menú.
+- La gestió d'errors (dades incorrectes, excepcions, falta de comanda).
+- El comportament en escenaris límit.
+
+---
+
+## 2. Funcionalitats del Programa
+Basat en el codi proporcionat, es testaran:
+
+### **Menú principal**
+1. Crear nova comanda  
+2. Actualitzar comanda  
+3. Visualitzar últim tiquet  
+4. Sortir  
+
+### **Fluxos dins de les comandes**
+- Afecció de productes múltiples.
+- Formats numèrics i validació.
+- Actualització correcta de comandes existents.
+- Impressió del tiquet.
+
+---
+
+## 3. Entorn de Proves
+- **Java:** 8 o superior  
+- **Execució:** consola  
+- **Inputs:** entrada per teclat (Scanner)  
+- **Tipus de proves:** manuals i unitàries (si es refactoritza)
+
+---
+
+## 4. Criteris d’Entrada i Sortida
+
+### **Criteris d’entrada**
+- Dades correctes per crear un tiquet.
+- Elecció vàlida al menú.
+- Inputs numèrics coherents.
+
+### **Criteris de sortida**
+- El tiquet es genera correctament.
+- No hi ha errors inesperats ni excepcions no controlades.
+- Els càlculs són correctes.
+
+---
+
+## 5. Casos de Prova
+
+### 🟦 **5.1 Menú Principal**
+
+| ID | Descripció | Entrada | Resultat Esperat |
+|----|------------|---------|------------------|
+| MP01 | Opció vàlida: “1” | `1` | Inicia “novaComanda()” |
+| MP02 | Opció vàlida: “2” sense comanda | `2` | Missatge: “No hi ha cap comanda enregistrada.” |
+| MP03 | Opció vàlida: “3” sense comanda | `3` | Missatge: “No hi ha cap comanda enregistrada.” |
+| MP04 | Opció vàlida: “4” | `4` | Finalitza el programa |
+| MP05 | Opció invàlida | `abc`, `9`, `""` | Mostra: “Opció Invàlida” |
+
+---
+
+### 🟩 **5.2 Creació d’una nova comanda (`novaComanda()`)**
+
+| ID | Descripció | Entrada | Resultat Esperat |
+|----|------------|---------|------------------|
+| NC01 | Nom del client i un producte | “Anna”, producte X | Es genera tiquet |
+| NC02 | Múltiples productes | “Anna”, 3 productes | Suma correcta + IVA 10% |
+| NC03 | Preus decimals | 3.45, 2.30 | Subtotals correctes |
+| NC04 | Quantitat 0 | producte X, quantitat 0 | Subtotal = 0 |
+| NC05 | Preu negatiu | -5 | Missatge d'error (InputMismatch o càlcul incorrecte detectat) |
+| NC06 | Quantitat no numèrica | “abc” | captura InputMismatchException |
+| NC07 | Preu no numèric | “hola” | captura InputMismatchException |
+| NC08 | Nom del client buit | "" | Accepta, però queda en blanc al tiquet |
+
+---
+
+### 🟨 **5.3 Afecció de productes (`afegirProducte()`)**
+
+| ID | Descripció | Entrada | Resultat Esperat |
+|----|------------|---------|------------------|
+| AP01 | Afecció d’un sol producte | “Llibre”, 10€, 2 | Subtotal = 20€ |
+| AP02 | Afecció múltiple | 3 productes | llistaProductes concatena correctament |
+| AP03 | Resposta “no” | “no” | Finalitza afegir productes |
+| AP04 | Error de format preu | “abc” | Mostra “Tipus de dada incorrecte” |
+| AP05 | Error de format quantitat | “--” | Mostra missatge d’error |
+| AP06 | Producte sense nom | "" | El nom queda buit però el producte s’afegeix |
+
+---
+
+### 🟧 **5.4 Actualitzar comanda (`actualitzarComanda()`)**
+
+| ID | Descripció | Entrada | Resultat Esperat |
+|----|------------|---------|------------------|
+| AC01 | No hi ha comanda pública | N/A | Missatge: “No hi ha cap comanda enregistrada.” |
+| AC02 | Afegir productes a comanda existent | Producte X | S’actualitza total i llista |
+| AC03 | Repeteix errors ja contemplats | errors d’input | Mostra missatge d’error |
+
+---
+
+### 🟥 **5.5 Visualitzar comanda (`visualitzarComanda()`)**
+
+| ID | Descripció | Entrada | Resultat Esperat |
+|----|------------|---------|------------------|
+| VC01 | No hi ha comanda | N/A | Missatge d’error |
+| VC02 | Comanda existent | N/A | Mostra tiquet generat |
+
+---
+
+### 🟦 **5.6 Generació del tiquet (`generarTiquet()`)**
+
+| ID | Descripció | Valors | Resultat Esperat |
+|----|------------|--------|------------------|
+| GT01 | Càlcul IVA | totalSenseIVA=100 | IVA=10, Total=110 |
+| GT02 | Cap producte | llista buida | Tiquet buit però correcte |
+| GT03 | Format | Qualsevol | Columns correctament alineades |
+| GT04 | Total acumulat | diversos productes | suma correcta |
+
+---
+
+## 6. Proves d’Errors i Excepcions
+
+| ID | Escenari | Excepció Esperada | Resultat |
+|----|----------|-------------------|----------|
+| EX01 | Input no numèric en preu | InputMismatchException | Mostra missatge |
+| EX02 | Input no numèric en quantitat | InputMismatchException | Mostra missatge |
+| EX03 | Operacions amb valors no vàlids | ArithmeticException | Capturada |
+| EX04 | Casos no previstos | Exception | Mostra “Error: <missatge>” |
+
+---
+
+## 7. Criteris d’Acceptació
+- Tots els càlculs es realitzen correctament.
+- No es produeixen excepcions no controlades.
+- El comportament del menú és coherent.
+- El tiquet sempre reflecteix la informació real introduïda.
+
+---
+
+## 8. Informe Final (per executar després de les proves)
+Inclourà:
+- Estat de cada cas de prova (OK / KO)
+- Bug report (si n'hi ha)
+- Recomanacions de millora (per exemple: separar lògica i entrada, fer proves unitàries, afegir validacions)
